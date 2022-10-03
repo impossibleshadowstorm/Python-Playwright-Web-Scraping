@@ -304,6 +304,9 @@ with sync_playwright() as p:
                     screenshot_directory = os.path.join(
                         inner_current_menu_directory, "Screenshots")
 
+                    # Locate the Main Menu
+                    home_page_locator = page.locator(
+                    "#menu-main-menu .menu-item > a", has_text=inner)
 
 
             # Click the Menu
