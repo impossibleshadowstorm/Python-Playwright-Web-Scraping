@@ -254,11 +254,9 @@ with sync_playwright() as p:
                                "Creating Date Folder in " + i + " ...")
                     date_menu_directory = createFolder(
                         today, current_menu_directory)
-                date_menu_directory = os.path.join(
-                    current_menu_directory, today)
+                date_menu_directory = os.path.join(current_menu_directory, today)
             else:
                 continue
-            
             
             if i == "Company":
                 html = page.inner_html("#menu-item-401 > ul")
@@ -303,15 +301,50 @@ with sync_playwright() as p:
                         createFolder("Screenshots", inner_current_menu_directory)
                     screenshot_directory = os.path.join(
                         inner_current_menu_directory, "Screenshots")
-
+                    
                     # Locate the Main Menu
                     home_page_locator = page.locator(
-                    "#menu-main-menu .menu-item > a", has_text=inner)
+                        "#menu-main-menu .menu-item > a", has_text=i)
 
+                    # Click the Menu
+                    home_page_locator.click()
+                    page.wait_for_timeout(5000)
 
-            # Click the Menu
-            home_page_locator.click()
-            page.wait_for_timeout(5000)
+                    # Locate the Sub Menu
+                    home_page_locator = page.locator(
+                    "#menu-main-menu ul.sub-menu li.menu-item > a", has_text=inner)
+                    
+                    print(home_page_locator)
+
+                    # Click the Menu
+                    home_page_locator.click()
+                    page.wait_for_timeout(5000)
+                    
+                    writeToLog(logs_date_path, "Taking Landing Section Screenshot...")
+                    page.screenshot(path=os.path.join(screenshot_directory, "Landing_page.png"))
+                    
+                    writeToLog(logs_date_path, "Scrolling landing section...")
+                    page.keyboard.press("PageDown")
+                    page.wait_for_timeout(3000)
+                    page.keyboard.press("PageDown")
+                    page.wait_for_timeout(3000)
+                    page.keyboard.press("End")
+                    page.wait_for_timeout(3000)
+                    writeToLog(logs_date_path, "Took Landing Section Screenshot...")
+
+                    writeToLog(logs_date_path, "Taking Full Screen Screenshot...")
+                    page.screenshot(path=os.path.join(
+                        screenshot_directory, "Full_page.png"), full_page=True)
+                    writeToLog(logs_date_path, "Took Full Page Screenshot...")
+                    
+                    # Move to Top to get the Menu Icon
+                    page.mouse.move(0, 0)
+                    page.wait_for_timeout(3000)
+
+                    # Hover the menu bar
+                    page.hover("#my-navbar")
+                    page.click("#my-navbar > div.ham > img")
+
 
             writeToLog(logs_date_path, "Scrolling landing section...")
             page.keyboard.press("PageDown")
