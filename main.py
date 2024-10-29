@@ -13,7 +13,7 @@ valid_file_extension = ["pdf", "doc", "docx", "jpg",
                         "jpeg", "png", "gif", "totm", "xlsx", "xlsv", "csv", "html", "mp3", "mp4", "ppt", "pptx", "psd", "zip", "rar", "txt", "tiff", "xls"]
 
 
-url = "https://solargroup.com/"
+url = "abc.com"
 
 if not checkFolderExists("Logs", getCurrentDirectory()):
     createFolder("Logs", getCurrentDirectory())
